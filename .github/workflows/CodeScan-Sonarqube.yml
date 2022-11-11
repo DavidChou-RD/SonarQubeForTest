@@ -26,6 +26,8 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
+         git clone https://github.com/DavidChou-RD/SonarQubeForTest.git
+          cd SonarQubeForTest
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Build and analyze
@@ -33,9 +35,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         shell: powershell
         run: |
-         git clone https://github.com/DavidChou-RD/SonarQubeForTest.git
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"sonarqube_scandemo2" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
-          cd SonarQubeForTest
           dotnet build
-          cd ..
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
