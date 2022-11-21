@@ -3,7 +3,8 @@ on:
   push:
     branches:
       - main # or the name of your main branch
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   build:
     name: Build
@@ -38,6 +39,3 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"DavidChou-RD_SonarQubeForTest_AYSZSjK2CZUxBBAzZ0MR" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-          
-# defaults to project key
-#sonar.projectName=My project
