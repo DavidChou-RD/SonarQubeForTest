@@ -39,10 +39,10 @@ jobs:
         shell: powershell
         run: |
           echo "http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public"
-          try { Invoke-RestMethod 'http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public' ` -Method 'POST' ` -Headers @{ "Content-Type" = "application/json"; "Authorization" = "Basic YWRtaW46dHdwb3J0MTA0OA=="; } ` } catch { Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__  Write-Host "StatusDescription:" $_.Exception.Message }
+          try { Invoke-RestMethod 'http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public' ` -Method 'POST' ` -Headers @{ "Content-Type" = "application/json"; "Authorization" = "Basic YWRtaW46dHdwb3J0MTA0OA=="; } ` } catch { $response = $_.ErrorDetails.Message | ConvertFrom-Json Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__  Write-Host "StatusDescription:" $response.errors[0].message }
   comment:
-    if: contains(github.event.comment.body, 'special string')
-    runs-on: ubuntu-latest
+    name: Comment
+    runs-on: self-hosted
     steps:
       - name: Add comment to PR
         env:
