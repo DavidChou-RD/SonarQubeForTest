@@ -50,9 +50,11 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+          try { 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
-            })  
+              body: ' This is a rebot that response some messages from comment actions. 👋 Thanks for reporting!'
+            })
+          } catch { echo github.rest.issues }  
