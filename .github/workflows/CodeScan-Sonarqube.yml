@@ -43,11 +43,11 @@ jobs:
         # try { Invoke-RestMethod 'http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public' ` -Method 'POST' ` -Headers @{ "Content-Type" = "application/json"; "Authorization" = "Basic YWRtaW46dHdwb3J0MTA0OA=="; } ` } catch { Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__  Write-Host "StatusDescription:" $_.ErrorDetails.Message | ConvertFrom-Json }
   comment:
     name: Comment
-    run_if:
-      if: github.event.label.name == 'bug' || github.event.label.name == 'wontfix'
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to PR
+        run: echo ${{github.event.label.name}}
+        if: github.event.label.name == 'bug' || github.event.label.name == 'wontfix'
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
