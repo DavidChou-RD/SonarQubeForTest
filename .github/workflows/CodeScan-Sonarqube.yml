@@ -51,7 +51,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(${{github.event.label.name}})
+            console.log(github.event.label.name)
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
