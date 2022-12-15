@@ -4,7 +4,7 @@ on:
     branches:
       - main # or the name of your main branch
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
   issue_comment:
     types: [created]
 jobs:
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to PR
-        if: ${{github.event.label.name}} == 'bug' || ${{github.event.label.name}} == 'wontfix'
+        if: ${{ github.event.label.name == 'bug' }}
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
