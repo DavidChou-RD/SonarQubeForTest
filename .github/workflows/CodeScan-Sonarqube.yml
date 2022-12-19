@@ -39,8 +39,7 @@ jobs:
         shell: powershell
         run: |
           echo "http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public"
-          echo ${{ github.sha }} + ${{ github.actor }}
-          echo ${{ secrets.SONAR_TOKEN }} 
+          echo ${{ github.sha }} + ${{ github.actor }} + here is the ${{ secrets.SONAR_TOKEN }}
         # try { Invoke-RestMethod 'http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public' ` -Method 'POST' ` -Headers @{ "Content-Type" = "application/json"; "Authorization" = "Basic YWRtaW46dHdwb3J0MTA0OA=="; } ` } catch { Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__  Write-Host "StatusDescription:" $_.ErrorDetails.Message | ConvertFrom-Json }
   comment:
     name: Comment
