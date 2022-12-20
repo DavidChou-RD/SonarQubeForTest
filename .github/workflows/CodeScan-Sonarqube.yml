@@ -40,7 +40,9 @@ jobs:
         run: |
           echo "http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public"
           echo ${{ github.sha }} + ${{ github.actor }} + here is the ${{ secrets.SONAR_TOKEN }}
-        # try { Invoke-RestMethod 'http://sonarqube.gorilla-technology.com:9000/api/projects/create?name=${{ github.event.repository.name }}&project=${{ github.event.repository.name }}&visibility=public' ` -Method 'POST' ` -Headers @{ "Content-Type" = "application/json"; "Authorization" = "Basic YWRtaW46dHdwb3J0MTA0OA=="; } ` } catch { Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__  Write-Host "StatusDescription:" $_.ErrorDetails.Message | ConvertFrom-Json }
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ github.event.repository.name }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
+          dotnet build
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   comment:
     name: Comment
     if: ${{ github.event.label.name == 'bug' }}
