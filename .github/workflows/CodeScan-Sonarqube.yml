@@ -1,4 +1,4 @@
-name: Build
+name: SonarBuild
 on:
   push:
     branches:
@@ -41,6 +41,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ github.event.repository.name }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          echo running on branch ${GITHUB_REF##*/} ${GITHUB_HEAD_REF}
   # comment:
   #   name: Comment
   #   if: ${{ github.event.label.name == 'bug' }}
@@ -58,4 +59,3 @@ jobs:
   #             repo: context.repo.repo,
   #             body: ' This is a rebot that response some messages from comment actions. 👋 Thanks for reporting!'
   #           })
-  
